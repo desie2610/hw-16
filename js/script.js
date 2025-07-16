@@ -50,72 +50,147 @@
 //   followers: 17,
 // });
 
-class Storage {
-  constructor(items) {
-    this.items = items;
+// class Storage {
+//   constructor(items) {
+//     this.items = items;
+//   }
+
+//   getItems() {
+//     return this.items;
+//   }
+
+//   addItem(item) {
+//     this.items.push(item);
+//   }
+
+//   removeItem(item) {
+//     const index = this.items.indexOf(item);
+//     if (index !== -1) {
+//       this.items.splice(index, 1);
+//     }
+//   }
+// }
+
+// const storage = new Storage([
+//   'Нанітоіди',
+//   'Пролонгер',
+//   'Залізні жупи',
+//   'Антигравітатор',
+// ]);
+
+// const items = storage.getItems();
+// console.table(items); // [ "Нанітоіди", "Пролонгер", "Залізні жупи", "Антигравітатор" ]
+
+// storage.addItem('Дроїд');
+// console.table(storage.items); // [ "Нанітоіди", "Пролонгер", "Залізні жупи", "Антигравітатор", "Дроїд" ]
+
+// storage.removeItem('Пролонгер');
+// console.table(storage.items); // [ "Нанітоіди", "Залізні жупи", "Антигравітатор", "Дроїд" ]
+
+// class StringBuilder {
+//   constructor(initialValue) {
+//     this._value = initialValue;
+//   }
+
+//   get value() {
+//     return this._value;
+//   }
+
+//   append(str) {
+//     this._value += str;
+//   }
+
+//   prepend(str) {
+//     this._value = str + this._value;
+//   }
+
+//   pad(str) {
+//     this._value = str + this._value + str;
+//   }
+// }
+
+// const builder = new StringBuilder('.');
+
+// builder.append('^');
+// console.log(builder.value); // '.^'
+
+// builder.prepend('^');
+// console.log(builder.value); // '^.^'
+
+// builder.pad('=');
+// console.log(builder.value); // '=^.^='
+
+class Car {
+  constructor({ maxSpeed, price }) {
+    this.speed = 0;
+    this._price = price;
+    this.maxSpeed = maxSpeed;
+    this.isOn = false;
+    this.distance = 0;
   }
 
-  getItems() {
-    return this.items;
+  get price() {
+    return this._price;
   }
 
-  addItem(item) {
-    this.items.push(item);
+  set price(newPrice) {
+    this._price = newPrice;
   }
 
-  removeItem(item) {
-    const index = this.items.indexOf(item);
-    if (index !== -1) {
-      this.items.splice(index, 1);
+  turnOn() {
+    this.isOn = true;
+  }
+
+  turnOff() {
+    this.isOn = false;
+    this.speed = 0;
+  }
+
+  accelerate(value) {
+    if (this.speed + value <= this.maxSpeed) {
+      this.speed += value;
+    } else {
+      this.speed = this.maxSpeed;
     }
   }
-}
 
-const storage = new Storage([
-  'Нанітоіди',
-  'Пролонгер',
-  'Залізні жупи',
-  'Антигравітатор',
-]);
-
-const items = storage.getItems();
-console.table(items); // [ "Нанітоіди", "Пролонгер", "Залізні жупи", "Антигравітатор" ]
-
-storage.addItem('Дроїд');
-console.table(storage.items); // [ "Нанітоіди", "Пролонгер", "Залізні жупи", "Антигравітатор", "Дроїд" ]
-
-storage.removeItem('Пролонгер');
-console.table(storage.items); // [ "Нанітоіди", "Залізні жупи", "Антигравітатор", "Дроїд" ]
-
-class StringBuilder {
-  constructor(initialValue) {
-    this._value = initialValue;
+  decelerate(value) {
+    if (this.speed - value >= 0) {
+      this.speed -= value;
+    } else {
+      this.speed = 0;
+    }
   }
 
-  get value() {
-    return this._value;
+  drive(hours) {
+    if (this.isOn) {
+      this.distance += this.speed * hours;
+    }
   }
 
-  append(str) {
-    this._value += str;
-  }
-
-  prepend(str) {
-    this._value = str + this._value;
-  }
-
-  pad(str) {
-    this._value = str + this._value + str;
+  // Цей метод замість static: просто викликається через об'єкт
+  getSpecs() {
+    console.log(`maxSpeed: ${this.maxSpeed}, speed: ${this.speed}, isOn: ${this.isOn}, distance: ${this.distance}, price: ${this.price}`);
   }
 }
 
-const builder = new StringBuilder('.');
+// Перевірка:
+const mustang = new Car({ maxSpeed: 200, price: 2000 });
 
-builder.append('^');
-console.log(builder.value); // '.^'
+mustang.turnOn();
+mustang.accelerate(50);
+mustang.drive(2);
 
-builder.prepend('^');
-console.log(builder.value); // '^.^'
+mustang.getSpecs();
+// maxSpeed: 200, speed: 50, isOn: true, distance: 100, price: 2000
 
-builder.pad('=');
-console.log(builder.value); // '=^.^='
+mustang.decelerate(20);
+mustang.drive(1);
+mustang.turnOff();
+
+mustang.getSpecs();
+// maxSpeed: 200, speed: 0, isOn: false, distance: 130, price: 2000
+
+console.log(mustang.price); // 2000
+mustang.price = 4000;
+console.log(mustang.price); // 4000
