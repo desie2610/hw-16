@@ -119,78 +119,19 @@
 
 // builder.pad('=');
 // console.log(builder.value); // '=^.^='
-
 class Car {
   constructor({ maxSpeed, price }) {
-    this.speed = 0;
-    this._price = price;
     this.maxSpeed = maxSpeed;
+    this.speed = 0;
     this.isOn = false;
     this.distance = 0;
-  }
-
-  get price() {
-    return this._price;
-  }
-
-  set price(newPrice) {
-    this._price = newPrice;
-  }
-
-  turnOn() {
-    this.isOn = true;
-  }
-
-  turnOff() {
-    this.isOn = false;
-    this.speed = 0;
-  }
-
-  accelerate(value) {
-    if (this.speed + value <= this.maxSpeed) {
-      this.speed += value;
-    } else {
-      this.speed = this.maxSpeed;
-    }
-  }
-
-  decelerate(value) {
-    if (this.speed - value >= 0) {
-      this.speed -= value;
-    } else {
-      this.speed = 0;
-    }
-  }
-
-  drive(hours) {
-    if (this.isOn) {
-      this.distance += this.speed * hours;
-    }
-  }
-
-  // Цей метод замість static: просто викликається через об'єкт
-  getSpecs() {
-    console.log(`maxSpeed: ${this.maxSpeed}, speed: ${this.speed}, isOn: ${this.isOn}, distance: ${this.distance}, price: ${this.price}`);
+    this.price = price;
   }
 }
 
-// Перевірка:
-const mustang = new Car({ maxSpeed: 200, price: 2000 });
 
-mustang.turnOn();
-mustang.accelerate(50);
-mustang.drive(2);
 
-mustang.getSpecs();
-// maxSpeed: 200, speed: 50, isOn: true, distance: 100, price: 2000
+const myCar = new Car({ maxSpeed: 180, price: 25000 });
 
-mustang.decelerate(20);
-mustang.drive(1);
-mustang.turnOff();
-
-mustang.getSpecs();
-// maxSpeed: 200, speed: 0, isOn: false, distance: 130, price: 2000
-
-console.log(mustang.price); // 2000
-mustang.price = 4000;
-console.log(mustang.price); // 4000
+console.log(myCar);
+// Виведе: Car { maxSpeed: 180, speed: 0, isOn: false, distance: 0, price: 25000 }
